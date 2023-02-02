@@ -53,6 +53,7 @@ LABEL \
     org.opencontainers.image.title="Go Dev container Debian" \
     org.opencontainers.image.description="Go development container for Visual Studio Code Remote Containers development"
 # Install Debian packages
+USER root
 RUN apt-get update && \
     apt-get install -y --no-install-recommends g++ wget && \
     apt-get autoremove -y && \

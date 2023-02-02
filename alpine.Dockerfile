@@ -53,6 +53,7 @@ LABEL \
     org.opencontainers.image.title="Go Dev container Alpine" \
     org.opencontainers.image.description="Go development container for Visual Studio Code Remote Containers development"
 # Install Alpine packages (g++ for race testing)
+USER root
 RUN apk add -q --update --progress --no-cache g++
 
 USER $USERNAME
