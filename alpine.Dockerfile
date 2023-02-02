@@ -52,6 +52,9 @@ LABEL \
     org.opencontainers.image.source="https://github.com/kbuley/godevcontainer" \
     org.opencontainers.image.title="Go Dev container Alpine" \
     org.opencontainers.image.description="Go development container for Visual Studio Code Remote Containers development"
+# Install Alpine packages (g++ for race testing)
+RUN apk add -q --update --progress --no-cache g++
+
 USER $USERNAME
 COPY --chmod=755 --from=go /usr/local/go /usr/local/go
 ENV GOPATH=/go
@@ -59,11 +62,8 @@ ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH \
     CGO_ENABLED=0 \
     GO111MODULE=on
 WORKDIR $GOPATH
-# Install Alpine packages (g++ for race testing)
-RUN sudo apk add -q --update --progress --no-cache g++
 # Shell setup
-
-COPY --chown=vscode:vscode shell/.zshrc-specific shell/.welcome.sh /home/${USERNAME}/
+COPY --chown=${USERNAME}:${USERNAME} shell/.zshrc-specific shell/.welcome.sh /home/${USERNAME}/
 
 COPY --chmod=755 --from=gomodifytags /bin /go/bin/gomodifytags
 COPY --chmod=755 --from=goplay  /bin /go/bin/goplay

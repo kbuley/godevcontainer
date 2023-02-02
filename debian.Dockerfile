@@ -52,6 +52,13 @@ LABEL \
     org.opencontainers.image.source="https://github.com/kbuley/godevcontainer" \
     org.opencontainers.image.title="Go Dev container Debian" \
     org.opencontainers.image.description="Go development container for Visual Studio Code Remote Containers development"
+# Install Debian packages
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends g++ wget && \
+    apt-get autoremove -y && \
+    apt-get clean -y && \
+    rm -r /var/cache/* /var/lib/apt/lists/*
+
 USER $USERNAME
 COPY --chmod=755 --from=go /usr/local/go /usr/local/go
 ENV GOPATH=/go
@@ -59,12 +66,7 @@ ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH \
     CGO_ENABLED=0 \
     GO111MODULE=on
 WORKDIR $GOPATH
-# Install Debian packages
-RUN sudo apt-get update && \
-    sudo apt-get install -y --no-install-recommends g++ wget && \
-    sudo apt-get autoremove -y && \
-    sudo apt-get clean -y && \
-    sudo rm -r /var/cache/* /var/lib/apt/lists/*
+
 # Shell setup
 COPY --chown=${USERNAME}:${USERNAME} shell/.zshrc-specific shell/.welcome.sh /${USERNAME}/
 
