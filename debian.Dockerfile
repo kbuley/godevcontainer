@@ -61,7 +61,7 @@ RUN apt-get update && \
     rm -r /var/cache/* /var/lib/apt/lists/*
 
 USER $USERNAME
-COPY --chmod=755 --from=go /usr/local/go /usr/local/go
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=go /usr/local/go /usr/local/go
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH \
     CGO_ENABLED=0 \

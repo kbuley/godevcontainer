@@ -57,7 +57,7 @@ USER root
 RUN apk add -q --update --progress --no-cache g++
 
 USER $USERNAME
-COPY --chmod=755 --from=go /usr/local/go /usr/local/go
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=go /usr/local/go /usr/local/go
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH \
     CGO_ENABLED=0 \
