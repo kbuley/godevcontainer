@@ -18,7 +18,7 @@ ARG KUBECTX_VERSION=v0.9.4
 ARG KUBENS_VERSION=v0.9.4
 ARG HELM_VERSION=v3.10.3
 ARG GOCOV_VERSION=v1.1.0
-ARG GOCOV-HTML_VERSION=v1.2.0
+ARG GOCOVHTML_VERSION=v1.2.0
 
 
 FROM golang:${GO_VERSION}-${DEBIAN_VERSION} AS go
@@ -39,7 +39,7 @@ FROM kbuley/binpot:kubectx-${KUBECTX_VERSION} AS kubectx
 FROM kbuley/binpot:kubens-${KUBENS_VERSION} AS kubens
 FROM kbuley/binpot:helm-${HELM_VERSION} AS helm
 FROM kbuley/binpot:gocov-${GOCOV_VERSION} AS gocov
-FROM kbuley/binpot:gocov-html-${GOCOV-HTML_VERSION} AS gocov-html
+FROM kbuley/binpot:gocov-html-${GOCOVHTML_VERSION} AS gocov-html
 
 FROM kbuley/basedevcontainer:${BASEDEV_VERSION}-debian
 ARG CREATED
