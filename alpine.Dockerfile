@@ -17,6 +17,8 @@ ARG STERN_VERSION=v1.22.0
 ARG KUBECTX_VERSION=v0.9.4
 ARG KUBENS_VERSION=v0.9.4
 ARG HELM_VERSION=v3.10.3
+ARG GOCOV_VERSION=v1.1.0
+ARG GOCOV-HTML_VERSION=v1.2.0
 
 
 FROM golang:${GO_VERSION}-alpine${ALPINE_VERSION} AS go
@@ -36,6 +38,9 @@ FROM kbuley/binpot:stern-${STERN_VERSION} AS stern
 FROM kbuley/binpot:kubectx-${KUBECTX_VERSION} AS kubectx
 FROM kbuley/binpot:kubens-${KUBENS_VERSION} AS kubens
 FROM kbuley/binpot:helm-${HELM_VERSION} AS helm
+FROM kbuley/binpot:gocov-${GOCOV_VERSION} AS gocov
+FROM kbuley/binpot:gocov-html-${GOCOV-HTML_VERSION} AS gocov-html
+
 
 FROM kbuley/basedevcontainer:${BASEDEV_VERSION}-alpine
 ARG CREATED
@@ -57,7 +62,7 @@ USER root
 RUN apk add -q --update --progress --no-cache g++
 
 USER $USERNAME
-COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=go /usr/local/go /usr/local/go
+COPY --chmod=755 --from=go /usr/local/go /usr/local/go
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH \
     CGO_ENABLED=0 \
@@ -66,17 +71,20 @@ WORKDIR $GOPATH
 # Shell setup
 COPY --chown=${USERNAME}:${USERNAME} shell/.zshrc-specific shell/.welcome.sh /home/${USERNAME}/
 
-COPY --chmod=755 --from=gomodifytags /bin /go/bin/gomodifytags
-COPY --chmod=755 --from=goplay  /bin /go/bin/goplay
-COPY --chmod=755 --from=gotests /bin /go/bin/gotests
-COPY --chmod=755 --from=dlv /bin /go/bin/dlv
-COPY --chmod=755 --from=mockery /bin /go/bin/mockery
-COPY --chmod=755 --from=gomock /bin /go/bin/gomock
-COPY --chmod=755 --from=mockgen /bin /go/bin/mockgen
-COPY --chmod=755 --from=gopls /bin /go/bin/gopls
-COPY --chmod=755 --from=golangci-lint /bin /go/bin/golangci-lint
-COPY --chmod=755 --from=impl /bin /go/bin/impl
-COPY --chmod=755 --from=gopkgs /bin /go/bin/gopkgs
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=gomodifytags /bin /go/bin/gomodifytags
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=goplay  /bin /go/bin/goplay
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=gotests /bin /go/bin/gotests
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=dlv /bin /go/bin/dlv
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=mockery /bin /go/bin/mockery
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=gomock /bin /go/bin/gomock
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=mockgen /bin /go/bin/mockgen
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=gopls /bin /go/bin/gopls
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=golangci-lint /bin /go/bin/golangci-lint
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=impl /bin /go/bin/impl
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=gopkgs /bin /go/bin/gopkgs
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=gocov /bin /go/bin/gocov
+COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=gocov-html /bin /go/bin/gocov-html
+
 
 # Extra binary tools
 COPY --chmod=755 --from=kubectl /bin /usr/local/bin/kubectl
