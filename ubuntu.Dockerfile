@@ -1,5 +1,5 @@
 ARG BASEDEV_VERSION=v0.20.9
-ARG ALPINE_VERSION=3.19
+ARG DEBIAN_VERSION=bookworm
 ARG GO_VERSION=1.21.5
 ARG GOMODIFYTAGS_VERSION=v1.16.0
 ARG GOPLAY_VERSION=v1.0.0
@@ -15,7 +15,8 @@ ARG GOPKGS_VERSION=v2.1.2
 ARG GOCOV_VERSION=v1.1.0
 ARG GOCOVHTML_VERSION=v1.4.0
 
-FROM golang:${GO_VERSION}-alpine${ALPINE_VERSION} AS go
+
+FROM golang:${GO_VERSION}-${DEBIAN_VERSION} AS go
 FROM kbuley/binpot:gomodifytags-${GOMODIFYTAGS_VERSION} AS gomodifytags
 FROM kbuley/binpot:goplay-${GOPLAY_VERSION} AS goplay
 FROM kbuley/binpot:gotests-${GOTESTS_VERSION} AS gotests
@@ -30,7 +31,7 @@ FROM kbuley/binpot:gopkgs-${GOPKGS_VERSION} AS gopkgs
 FROM kbuley/binpot:gocov-${GOCOV_VERSION} AS gocov
 FROM kbuley/binpot:gocov-html-${GOCOVHTML_VERSION} AS gocov-html
 
-FROM kbuley/basedevcontainer:${BASEDEV_VERSION}-alpine
+FROM kbuley/basedevcontainer:${BASEDEV_VERSION}-ubuntu
 ARG CREATED
 ARG COMMIT
 ARG VERSION=local
@@ -43,13 +44,17 @@ LABEL \
   org.opencontainers.image.url="https://github.com/kbuley/godevcontainer" \
   org.opencontainers.image.documentation="https://github.com/kbuley/godevcontainer" \
   org.opencontainers.image.source="https://github.com/kbuley/godevcontainer" \
-  org.opencontainers.image.title="Go Dev container Alpine" \
+  org.opencontainers.image.title="Go Dev container Ubuntu" \
   org.opencontainers.image.description="Go development container for Visual Studio Code Remote Containers development"
-# Install Alpine packages (g++ for race testing)
 USER root
 
-#hadolint ignore=DL3018
-RUN apk add -q --update --progress --no-cache g++ && mkdir /go && chown ${USERNAME} /go
+#hadolint ignore=DL3008
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends g++ wget && \
+  mkdir /go && chown ${USERNAME} /go && \
+  apt-get autoremove -y && \
+  apt-get clean -y && \
+  rm -r /var/cache/* /var/lib/apt/lists/*
 
 USER $USERNAME
 COPY --chmod=755 --from=go /usr/local/go /usr/local/go
@@ -58,8 +63,9 @@ ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH \
   CGO_ENABLED=0 \
   GO111MODULE=on
 WORKDIR $GOPATH
+
 # Shell setup
-COPY --chown=${USERNAME}:${USERNAME} shell/.zshrc-specific shell/.welcome.sh /home/${USERNAME}/
+COPY --chown=${USERNAME}:${USERNAME} shell/.zshrc-specific shell/.welcome.sh /${USERNAME}/
 
 COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=gomodifytags /bin /go/bin/gomodifytags
 COPY --chmod=755 --chown=${USERNAME}:${USERNAME} --from=goplay  /bin /go/bin/goplay
