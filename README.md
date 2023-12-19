@@ -6,6 +6,7 @@
 
 [![Alpine](https://github.com/kbuley/godevcontainer/actions/workflows/alpine.yml/badge.svg)](https://github.com/kbuley/godevcontainer/actions/workflows/alpine.yml)
 [![Debian](https://github.com/kbuley/godevcontainer/actions/workflows/debian.yml/badge.svg)](https://github.com/kbuley/godevcontainer/actions/workflows/debian.yml)
+[![Ubuntu](https://github.com/kbuley/godevcontainer/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/kbuley/godevcontainer/actions/workflows/ubuntu.yml)
 
 [![dockeri.co](https://dockeri.co/image/kbuley/godevcontainer)](https://hub.docker.com/r/kbuley/godevcontainer)
 
@@ -33,14 +34,16 @@
 
 - Compatible with `amd64`, `386`, `arm64`, `armv6`, `armv7` and `ppc64le` CPUs
 - `kbuley/godevcontainer:alpine` and `kbuley/godevcontainer`
-  - Based on Alpine 3.16 (size of 936MB)
-- `kbuley/godevcontainer:debian` - **beware [it has CVE](https://github.com/kbuley/godevcontainer/runs/596825646?check_suite_focus=true) because of outdated packages**
-  - Based on Debian Buster Slim (size of 1.24GB)
+  - Based on Alpine 3.19
+- `kbuley/godevcontainer:debian`
+  - Based on Debian Bookworm Slim
+- `kbuley/godevcontainer:ubuntu`
+  - Based on Ubuntu LTS
 - Based on [kbuley/basedevcontainer](https://github.com/kbuley/basedevcontainer)
-  - Based on either Alpine or Debian
+  - Based on either Alpine, Debian, or Ubuntu
   - Minimal custom terminal and packages
   - See more [features](https://github.com/kbuley/basedevcontainer#features)
-- Go 1.19 code obtained from the latest tagged Golang Docker image
+- Go 1.21.5 code obtained from the latest tagged Golang Docker image
 - Go tooling [integrating with VS code](https://github.com/Microsoft/vscode-go/wiki/Go-tools-that-the-Go-extension-depends-on), all cross built statically from source at the [binpot](https://github.com/kbuley/binpot):
   - [Google's Go language server gopls](https://github.com/golang/tools/tree/master/gopls)
   - [golangci-lint](https://github.com/golangci/golangci-lint), includes golint and other linters
@@ -58,7 +61,6 @@
   - Easily bind mount your SSH keys to use with **git**
   - Manage your host Docker from within the dev container, more details at [kbuley/basedevcontainer](https://github.com/kbuley/basedevcontainer#features)
 - Extensible with docker-compose.yml
-- Comes with extra Go binary tools for a few extra MBs: `kubectl`, `kubectx`, `kubens`, `stern` and `helm`
 
 ## Requirements
 
@@ -71,24 +73,23 @@
 ## Setup for a project
 
 1. Setup your configuration files
-    - With style 💯
 
-        ```sh
-        docker run -it --rm -v "/yourrepopath:/repository" kbuley/devtainr:v0.2.0 -dev go -path /repository -name projectname
-        ```
+   - With style 💯
 
-        Or use the [built binary](https://github.com/kbuley/devtainr#binary)
-    - Or manually: download this repository and put the [.devcontainer](.devcontainer) directory in your project.
-1. If you have a *.vscode/settings.json*, eventually move the settings to *.devcontainer/devcontainer.json* in the `"settings"` section as *.vscode/settings.json* take precedence over the settings defined in *.devcontainer/devcontainer.json*.
+     ```sh
+     docker run -it --rm -v "/yourrepopath:/repository" kbuley/devtainr:v0.2.0 -dev go -path /repository -name projectname
+     ```
+
+     Or use the [built binary](https://github.com/kbuley/devtainr#binary)
+
+   - Or manually: download this repository and put the [.devcontainer](.devcontainer) directory in your project.
+
+1. If you have a _.vscode/settings.json_, eventually move the settings to _.devcontainer/devcontainer.json_ in the `"settings"` section as _.vscode/settings.json_ take precedence over the settings defined in _.devcontainer/devcontainer.json_.
 1. Open the command palette in Visual Studio Code (CTRL+SHIFT+P) and select `Remote-Containers: Open Folder in Container...` and choose your project directory
 
 ## Customization
 
 See the [.devcontainer/README.md](.devcontainer/README.md) document in your repository.
-
-## TODOs
-
-- [kbuley/basedevcontainer](https://github.com/kbuley/basedevcontainer) todos
 
 ## License
 
