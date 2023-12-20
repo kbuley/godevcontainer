@@ -32,7 +32,7 @@
 
 ## Features
 
-- Compatible with `amd64`, `386`, `arm64`, `armv6`, `armv7` and `ppc64le` CPUs
+- Compatible with `amd64`, and `arm64` CPUs
 - `kbuley/godevcontainer:alpine` and `kbuley/godevcontainer`
   - Based on Alpine 3.19
 - `kbuley/godevcontainer:debian`
