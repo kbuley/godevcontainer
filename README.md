@@ -2,7 +2,7 @@
 
 **Ultimate Go development container for Visual Studio Code**
 
-[![godevcontainer](https://github.com/kbuley/godevcontainer/raw/master/title.png)](https://hub.docker.com/r/kbuley/godevcontainer)
+[![godevcontainer](https://github.com/kbuley/godevcontainer/raw/main/title.png)](https://hub.docker.com/r/kbuley/godevcontainer)
 
 [![Alpine](https://github.com/kbuley/godevcontainer/actions/workflows/alpine.yml/badge.svg)](https://github.com/kbuley/godevcontainer/actions/workflows/alpine.yml)
 [![Debian](https://github.com/kbuley/godevcontainer/actions/workflows/debian.yml/badge.svg)](https://github.com/kbuley/godevcontainer/actions/workflows/debian.yml)
@@ -93,4 +93,4 @@ See the [.devcontainer/README.md](.devcontainer/README.md) document in your repo
 
 ## License
 
-This repository is under an [MIT license](https://github.com/kbuley/godevcontainer/master/LICENSE) unless indicated otherwise.
+This repository is under an [MIT license](https://github.com/kbuley/godevcontainer/main/LICENSE) unless indicated otherwise.
