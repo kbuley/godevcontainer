@@ -27,7 +27,7 @@ jobs:
   publish:
     needs: [verify]
     if: github.event_name == 'push'
-    runs-on: debian-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
 
