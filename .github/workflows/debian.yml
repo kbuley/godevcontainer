@@ -50,15 +50,15 @@ jobs:
           if [ "$TAG" != "$GITHUB_REF" ]; then
             echo "version=$TAG" >> $GITHUB_OUTPUT
             echo "debian_version=$TAG-debian" >> $GITHUB_OUTPUT
-            echo "platforms=linux/amd64,linux=arm64" >> $GITHUB_OUTPUT
+            echo "platforms=linux/amd64,linux/arm64" >> $GITHUB_OUTPUT
           elif [ "$BRANCH" = "main" ]; then
             echo "version=latest" >> $GITHUB_OUTPUT
             echo "debian_version=debian" >> $GITHUB_OUTPUT
-            echo "platforms=linux/amd64,linux=arm64" >> $GITHUB_OUTPUT
+            echo "platforms=linux/amd64,linux/arm64" >> $GITHUB_OUTPUT
           else
             echo "version=$BRANCH" >> $GITHUB_OUTPUT
             echo "debian_version=$BRANCH-debian >> $GITHUB_OUTPUT"
-            echo "platforms=linux/amd64,linux=arm64" >> $GITHUB_OUTPUT
+            echo "platforms=linux/amd64,linux/arm64" >> $GITHUB_OUTPUT
           fi
 
       - name: Build and push final image
