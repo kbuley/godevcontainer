@@ -15,7 +15,7 @@ on:
 
 jobs:
   verify:
-    runs-on: alpine-latest
+    runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: "1"
     steps:

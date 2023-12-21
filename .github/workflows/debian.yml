@@ -15,7 +15,7 @@ on:
 
 jobs:
   verify:
-    runs-on: debian-latest
+    runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: "1"
     steps:
