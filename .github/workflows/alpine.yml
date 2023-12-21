@@ -43,7 +43,7 @@ jobs:
       - uses: docker/login-action@v3
         with:
           registry: quay.io
-          username: kbuley
+          username: kbuley+github
           password: ${{ secrets.QUAY_PASSWORD }}
 
       - name: Set variables
