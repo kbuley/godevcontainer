@@ -44,7 +44,7 @@ jobs:
         with:
           registry: quay.io
           username: kbuley
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          password: ${{ secrets.QUAY_PASSWORD }}
 
       - name: Set variables
         id: vars
