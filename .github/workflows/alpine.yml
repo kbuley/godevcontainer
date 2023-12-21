@@ -57,7 +57,7 @@ jobs:
             echo "platforms=linux/amd64,linux/arm64" >> $GITHUB_OUTPUT
           else
             echo "version=$BRANCH" >> $GITHUB_OUTPUT
-            echo "alpine_version=$BRANCH-alpine >> $GITHUB_OUTPUT"
+            echo "alpine_version=$BRANCH-alpine" >> $GITHUB_OUTPUT
             echo "platforms=linux/amd64,linux/arm64" >> $GITHUB_OUTPUT
           fi
 
@@ -73,4 +73,6 @@ jobs:
           tags: |
             kbuley/godevcontainer:${{ steps.vars.outputs.version }}
             kbuley/godevcontainer:${{ steps.vars.outputs.alpine_version }}
+            quay.io/kbuley/godevcontainer:${{ steps.vars.outputs.version }}
+            quay.io/kbuley/godevcontainer:${{ steps.vars.outputs.alpine_version }}
           push: true
